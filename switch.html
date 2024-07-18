@@ -1,87 +1,117 @@
-<!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
+  <head>
+    <title>E-Ra iFrame</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Alef"
+      rel="stylesheet"
+    />
 
-.switch input { 
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
+    <style>
+      body {
+        font-family: "Alef";
+        font-size: 22px;
+        background-image: url("home_layout.jpg");
+        background-color: #ffffff;
+        background-size: auto;
+        img {
+          position: absolute;
+          left: 0px;
+          top: 0px;
+          z-index: 1;
+        }
+      }
+      .box {
+        width: fit-content;
+        height: cover;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .box1 {
+        background-color: rgb(0, 26, 255);
+      }
+      h1 {
+        position: relative;
+        top: 255px;
+        left: 0px;
+        font-size: 35;
+        color: red;
+      }
+      h2 {
+        position: relative;
+        top: 115;
+        left: 100px;
+        font-size: 35;
+        color: red;
+      }
+      h3 {
+        position: relative;
+        top: 5;
+        left: 105px;
+        font-size: 35;
+        color: red;
+      }
+    </style>
+  </head>
 
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
+  <body>
+    <h1 style="color: red; font-size: 28">E-Ra iFrame NewFeature</h1>
+    <script src="https://www.unpkg.com/@eohjsc/era-widget@1.0.14/src/index.js"></script>
 
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
+    <script>
+      const eraWidget = new EraWidget();
+      let config = null;
+      eraWidget.onConfiguration((configuration) => {
+        config = configuration.realtime_configs[0];
+      });
+      eraWidget.onValues((values) => {
+        var temp_value = values[config.id].value;
+        document.getElementById("temp").innerHTML = temp_value;
+      });
+      eraWidget.ready();
+    </script>
 
-input:checked + .slider {
-  background-color: #2196F3;
-}
+    <script>
+      config1 = null;
+      eraWidget.onConfiguration((configuration) => {
+        config1 = configuration.realtime_configs[1];
+      });
+      eraWidget.onValues((values) => {
+        var hum_value = values[config1.id].value;
+        document.getElementById("humi").innerHTML = hum_value;
+      });
+      eraWidget.ready();
+    </script>
 
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
-</style>
-</head>
-<body>
-
-<label class="switch">
-  <input type="checkbox" id="the_switch">
-  <span class="slider round"></span>
-</label>
-<script src="https://www.unpkg.com/@eohjsc/era-widget@1.0.14/src/index.js"></script>
-<script>
-  const eraWidget = new EraWidget();
-  let config = null;
-  eraWidget.onConfiguration((configuration) => {
-    config = configuration.realtime_configs[0];
-  })
-  eraWidget.onValues((values) => {
-    const input = document.getElementById('the_switch');
-    input.checked = values[config.id].value;
-  });
-  eraWidget.ready()
-</script>
-</body>
-</html> 
+    <div>
+      <h2>
+        <i class="material-icons" style="font-size: 30px; color: #ff0000"
+          >device_thermostat</i
+        ><span id="temp"></span
+        ><span style="font-family: Arial, Helvetica, sans-serif; font-size: 35"
+          >°C</span
+        >
+      </h2>
+      <h3>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="30px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          fill="#ff0000"
+        >
+          <path
+            d="M580-240q25 0 42.5-17.5T640-300q0-25-17.5-42.5T580-360q-25 0-42.5 17.5T520-300q0 25 17.5 42.5T580-240Zm-202-2 260-260-56-56-260 260 56 56Zm2-198q25 0 42.5-17.5T440-500q0-25-17.5-42.5T380-560q-25 0-42.5 17.5T320-500q0 25 17.5 42.5T380-440ZM480-80q-137 0-228.5-94T160-408q0-100 79.5-217.5T480-880q161 137 240.5 254.5T800-408q0 140-91.5 234T480-80Zm0-80q104 0 172-70.5T720-408q0-73-60.5-165T480-774Q361-665 300.5-573T240-408q0 107 68 177.5T480-160Zm0-320Z"
+          /></svg
+        ><span id="humi"></span
+        ><span style="font-family: Arial; font-size: 35">%</span>
+      </h3>
+    </div>
+  </body>
+</html>
