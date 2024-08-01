@@ -73,11 +73,14 @@
       return timeByTemp;
     });
     const series = temperatures.sort().map((temp) => {
+      if (temp < 16 || temp > 30) {
+        return null;
+      }
       return {
         name: temp,
         data: summarySeries.map((item) => item[temp] || 0),
       };
-    });
+    }).filter(Boolean);
     drawChart(
       categories,
       series,
