@@ -33,7 +33,7 @@
         },
 	labels: {
          formatter: function() {
-          return this.value / 60; // Chia phút thành giờ
+          return (this.value / 60).toFixed(2); // Chia phút thành giờ, và làm tròn đến 2 chữ số thập phân
          }
         }
        },
