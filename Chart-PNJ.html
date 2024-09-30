@@ -29,11 +29,18 @@
       yAxis: {
         min: 0,
 	title: {
-            text: 'Thời gian (phút)'
+            text: 'Thời gian (giờ)'//Hiển thị giờ
+        },
+	labels: {
+         formatter: function() {
+          return this.value / 60; // Chia phút thành giờ
+         }
         }
-      },
+       },
       tooltip: {
-        valueSuffix: ' (phút)'
+       formatter: function() {
+        return `<b>${this.series.name}</b><br/>${this.point.category}: ${this.y / 60} giờ`; // Hiển thị tooltip là giờ
+       }
       },
       plotOptions: {
         column: {
