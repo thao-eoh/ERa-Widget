@@ -28,19 +28,23 @@
       },
       yAxis: {
         min: 0,
-	title: {
-            text: 'Thời gian (giờ)'//Hiển thị giờ
+        title: {
+            text: 'Thời gian (giờ và phút)' // Hiển thị giờ và phút
         },
-	labels: {
-         formatter: function() {
-          return (this.value / 60).toFixed(2); // Chia phút thành giờ, và làm tròn đến 2 chữ số thập phân
-         }
+        labels: {
+          formatter: function() {
+            const hours = Math.floor(this.value / 60); // Giờ
+            const minutes = this.value % 60; // Phút
+            return `${hours} giờ ${minutes} phút`;
+          }
         }
-       },
+      },
       tooltip: {
-       formatter: function() {
-        return `<b>${this.series.name}</b><br/>${this.point.category}: ${this.y / 60} giờ`; // Hiển thị tooltip là giờ
-       }
+        formatter: function() {
+          const hours = Math.floor(this.y / 60);
+          const minutes = this.y % 60;
+          return `<b>${this.series.name}</b><br/>${this.point.category}: ${hours} giờ ${minutes} phút`;
+        }
       },
       plotOptions: {
         column: {
