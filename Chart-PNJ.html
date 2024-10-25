@@ -56,7 +56,8 @@
     });
   }
 
-</script>
+/*</script>*/
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 <script>
   let now = new Date();
   let startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
@@ -76,7 +77,7 @@
     eraWidget.requestHistories(startDate, endDate);
   }
   
-  eraWidget.onHistories((histories) => {
+  /*eraWidget.onHistories((histories) => {
     const categories = histories.map((item) => item.name);
     const temperatures = []
     const summarySeries = histories.map((item) => {
@@ -92,7 +93,43 @@
         timeByTemp[temp] += time;
       });
       return timeByTemp;
+    });*/
+  
+  function exportToExcel() {
+  let data = [];
+  
+  // Lấy dữ liệu từ bảng lịch sử
+  const categories = histories.map((item) => item.name);
+  const temperatures = [];
+  const summarySeries = histories.map((item) => {
+    const timeByTemp = {};
+    item.data?.map((dataItem) => {
+      const [temp, time] = JSON.parse(dataItem.y);
+      if (!temperatures.includes(temp)) {
+        temperatures.push(temp);
+      }
+      timeByTemp[temp] = time;
     });
+    return timeByTemp;
+  });
+
+  // Chuẩn bị dữ liệu cho Excel
+  data.push(["Ngày", ...temperatures]);
+  categories.forEach((category, index) => {
+    let row = [category];
+    temperatures.forEach(temp => {
+      row.push(summarySeries[index][temp] || 0);
+    });
+    data.push(row);
+  });
+
+  // Tạo file Excel
+  const ws = XLSX.utils.aoa_to_sheet(data);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Lịch sử nhiệt độ");
+  XLSX.writeFile(wb, "lich_su_nhiet_do.xlsx");
+}
+  
     const series = temperatures.sort().map((temp) => {
       if (temp < 16 || temp > 30) {
         return null;
