@@ -67,6 +67,15 @@
       startOfDay.getTime(), now.getTime()
     )
   })
+  
+  // Lay du lieu khoang thoai gian nguoi dung chon
+  function fetchData() {
+    const startDate = new Date(document.getElementById('startDate').value).getTime();
+    const endDate = new Date(document.getElementById('endDate').value).getTime();
+  
+    eraWidget.requestHistories(startDate, endDate);
+  }
+  
   eraWidget.onHistories((histories) => {
     const categories = histories.map((item) => item.name);
     const temperatures = []
